@@ -104,8 +104,8 @@ def run():
     """Run the agent for a finite number of trials."""
 
     e = Environment()  # create environment (also adds some dummy traffic)
-    #a = e.create_agent(QLearningAgent)  # create agent
-    a = e.create_agent(LearningAgent)  # create agent
+    a = e.create_agent(QLearningAgent)  # create agent
+    #a = e.create_agent(LearningAgent)  # create agent
     e.set_primary_agent(a, enforce_deadline=True)  # set agent to track
         # Now simulate it
     sim = Simulator(e, update_delay=0.00001)  # reduce update_delay to speed up simulation
