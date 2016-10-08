@@ -6,6 +6,9 @@ import math
 from collections import namedtuple
 from QLearningAgent import QLearningAgent
 import pprint
+import numpy as np
+import pandas as pd
+import os
 
 
 class LearningAgent(Agent):
@@ -24,6 +27,17 @@ class LearningAgent(Agent):
         self.planner = RoutePlanner(self.env, self)  # simple route planner to get next_waypoint
         self.previous_reward = 0
         self.previous_action = None
+        self.n_actions = 0.0
+        self.n_rewards = 0.0
+        self.n_penalty = 0.0
+        self.output_writer = []
+
+        try:
+        	os.remove("RandomAgent.csv")
+        	os.remove("qLearningTunning1.csv")
+        except:
+        	pass
+
 
     def reset(self, destination=None):
         """
@@ -34,6 +48,9 @@ class LearningAgent(Agent):
         self.previous_reward = 0
         self.previous_action = None
         self.state = None
+        self.n_actions = 0.0
+        self.n_rewards = 0.0
+        self.n_penalty = 0.0
 
     def update(self, t):
         """
@@ -41,15 +58,17 @@ class LearningAgent(Agent):
         """
         # Gather inputs
         self.next_waypoint = self.planner.next_waypoint()  # from route planner, also displayed by simulator
+        
         inputs = self.env.sense(self)
         deadline = self.env.get_deadline(self)
 
-        # TODO: Update state
+        # Update state
         ## currently using two states called random and initiated
-        if(self.state == None):
-            self.state = 'Random'
-        #print 'environment state:'
-        # {'light': 'green', 'oncoming': None, 'right': None, 'left': None}
+        # if(self.state == None):
+        #     #self.state = 'Random'
+        #self.state = 'light: {}, left: {}, oncoming: {}, next_waypoint: {}'.format(inputs['light'],inputs['left'],inputs['oncoming'],self.next_waypoint)
+
+        self.state='Random'
         current_env_state = self.env.sense(self)
         action = None
 
@@ -58,7 +77,7 @@ class LearningAgent(Agent):
             if(current_env_state['oncoming'] != 'left'):
                 possible_actions = ['right', None]
         else:
-            # traffic ligh is gree and now check for oncoming
+            # traffic ligh is green and now check for oncoming
             #if no oncoming 
             if(current_env_state['oncoming'] == 'forward'):
                 possible_actions = [ 'forward','right']
@@ -72,12 +91,8 @@ class LearningAgent(Agent):
         elif possible_actions != [] and self.state == 'Initiated':
             action = self.previous_action
             
-
-
         # Execute action and get reward
         reward = self.env.act(self, action)
-
-        # TODO: Learn policy based on state, action, reward
 
         if(action != None):
             if(reward > self.previous_reward):
@@ -89,10 +104,27 @@ class LearningAgent(Agent):
                 self.previous_action = action
                 self.previous_reward = reward
 
-        
-        
+        self.n_actions += 1.0
+        self.n_rewards += reward
+
+        if reward < 0: 
+        	self.n_penalty += 1
+
+        with open("RandomAgent.csv", "a") as myfile:
+        	myfile.write("{},{},{},{},{},{},{} {}".format(deadline, inputs['light'],inputs['oncoming'],inputs['right'],inputs['left'], action, reward,'\n'))
 
         print "LearningAgent.update(): deadline = {}, inputs = {}, action = {}, reward = {}".format(deadline, inputs, action, reward)  # [debug]
+
+###
+def parameterTunning(alphas=[],gammas=[]):
+    for alpha in alphas:
+        for gamma in gammas:
+            print "alpha: {}, gamma = {}".format(alpha,gamma)
+            
+            a = run(isQLearn=True,alpha=alpha, gamma=gamma)
+
+            with open("qLearningTunning1.csv", "a") as myfile:
+            	myfile.write("{},{},{},{},{}{}".format(alpha,gamma,a.n_actions,a.n_rewards,a.n_penalty,'\n'))
 
 
 def allPossibleStates():
@@ -100,19 +132,30 @@ def allPossibleStates():
                 "destination","light","oncoming","left","right","heading"]
     return states
 
-def run():
+def run(isQLearn=False,alpha=0.00,gamma=0.00):
     """Run the agent for a finite number of trials."""
+    agent = None
 
     e = Environment()  # create environment (also adds some dummy traffic)
-    a = e.create_agent(QLearningAgent)  # create agent
-    #a = e.create_agent(LearningAgent)  # create agent
-    e.set_primary_agent(a, enforce_deadline=True)  # set agent to track
-        # Now simulate it
+    qLearnAgent = e.create_agent(QLearningAgent,alpha,gamma)  # create agent
+    randomLearnAgent = e.create_agent(LearningAgent)  # create agent
+
+    if(isQLearn):
+    	agent=qLearnAgent
+    else:
+    	agent=randomLearnAgent
+
+    e.set_primary_agent(agent, enforce_deadline=True)
     sim = Simulator(e, update_delay=0.00001)  # reduce update_delay to speed up simulation
     sim.run(n_trials=100)  # press Esc or close pygame window to quit
 
-    
+    return agent
 
 
 if __name__ == '__main__':
-    run()
+	alphas = [num*1.0/10 for num in range(1,10)]
+	gammas = [num*1.0/10 for num in range(1,10)]
+
+	#parameterTunning(alphas,gammas)
+
+	run(True,0.9,0.3)
