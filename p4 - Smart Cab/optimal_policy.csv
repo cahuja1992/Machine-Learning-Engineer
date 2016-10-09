@@ -1,0 +1,24 @@
+,Total_Rewards,Penalty_x,Total_Actions,Iterations,Trails,Inputs,Action,Reward,Waypoint,Penalty
+559,34.0,0.0,23,40,1,"{'light': 'green', 'oncoming': None, 'right': None, 'left': None}",right,2.0,right,0.0
+560,34.0,0.0,23,40,2,"{'light': 'red', 'oncoming': None, 'right': None, 'left': None}",right,2.0,right,0.0
+561,34.0,0.0,23,40,3,"{'light': 'red', 'oncoming': None, 'right': None, 'left': None}",None,0.0,forward,0.0
+562,34.0,0.0,23,40,4,"{'light': 'green', 'oncoming': None, 'right': None, 'left': None}",forward,2.0,forward,0.0
+563,34.0,0.0,23,40,5,"{'light': 'green', 'oncoming': None, 'right': None, 'left': None}",forward,2.0,forward,0.0
+564,34.0,0.0,23,40,6,"{'light': 'red', 'oncoming': None, 'right': None, 'left': None}",None,0.0,forward,0.0
+565,34.0,0.0,23,40,7,"{'light': 'green', 'oncoming': None, 'right': None, 'left': None}",forward,2.0,forward,0.0
+566,34.0,0.0,23,40,8,"{'light': 'red', 'oncoming': None, 'right': None, 'left': None}",None,0.0,forward,0.0
+567,34.0,0.0,23,40,9,"{'light': 'red', 'oncoming': None, 'right': None, 'left': None}",None,0.0,forward,0.0
+568,34.0,0.0,23,40,10,"{'light': 'red', 'oncoming': None, 'right': None, 'left': None}",None,0.0,forward,0.0
+569,34.0,0.0,23,40,11,"{'light': 'green', 'oncoming': None, 'right': None, 'left': None}",forward,2.0,forward,0.0
+570,34.0,0.0,23,40,12,"{'light': 'red', 'oncoming': None, 'right': None, 'left': None}",None,0.0,forward,0.0
+571,34.0,0.0,23,40,13,"{'light': 'green', 'oncoming': None, 'right': None, 'left': None}",forward,2.0,forward,0.0
+572,34.0,0.0,23,40,14,"{'light': 'red', 'oncoming': None, 'right': None, 'left': None}",None,0.0,forward,0.0
+573,34.0,0.0,23,40,15,"{'light': 'red', 'oncoming': None, 'right': None, 'left': None}",None,0.0,forward,0.0
+574,34.0,0.0,23,40,16,"{'light': 'green', 'oncoming': None, 'right': None, 'left': None}",forward,2.0,forward,0.0
+575,34.0,0.0,23,40,17,"{'light': 'red', 'oncoming': None, 'right': None, 'left': None}",right,2.0,right,0.0
+576,34.0,0.0,23,40,18,"{'light': 'red', 'oncoming': None, 'right': None, 'left': None}",None,0.0,forward,0.0
+577,34.0,0.0,23,40,19,"{'light': 'red', 'oncoming': None, 'right': None, 'left': None}",None,0.0,forward,0.0
+578,34.0,0.0,23,40,20,"{'light': 'red', 'oncoming': None, 'right': None, 'left': None}",None,0.0,forward,0.0
+579,34.0,0.0,23,40,21,"{'light': 'green', 'oncoming': None, 'right': None, 'left': None}",forward,2.0,forward,0.0
+580,34.0,0.0,23,40,22,"{'light': 'green', 'oncoming': None, 'right': None, 'left': None}",forward,2.0,forward,0.0
+581,34.0,0.0,23,40,23,"{'light': 'green', 'oncoming': None, 'right': None, 'left': None}",forward,12.0,forward,0.0

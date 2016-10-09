@@ -30,10 +30,11 @@ class LearningAgent(Agent):
         self.n_actions = 0.0
         self.n_rewards = 0.0
         self.n_penalty = 0.0
+        self.trial = 1
         self.output_writer = []
 
         try:
-        	os.remove("RandomAgent.csv")
+        	os.remove("agent1.csv")
         	os.remove("qLearningTunning1.csv")
         except:
         	pass
@@ -48,9 +49,12 @@ class LearningAgent(Agent):
         self.previous_reward = 0
         self.previous_action = None
         self.state = None
+        
         self.n_actions = 0.0
         self.n_rewards = 0.0
         self.n_penalty = 0.0
+
+        self.trial+=0
 
     def update(self, t):
         """
@@ -68,7 +72,7 @@ class LearningAgent(Agent):
         #     #self.state = 'Random'
         #self.state = 'light: {}, left: {}, oncoming: {}, next_waypoint: {}'.format(inputs['light'],inputs['left'],inputs['oncoming'],self.next_waypoint)
 
-        self.state='Random'
+        self.state = 'light: {}, left: {}, oncoming: {}, next_waypoint: {}'.format(inputs['light'],inputs['left'],inputs['oncoming'],self.next_waypoint)
         current_env_state = self.env.sense(self)
         action = None
 
@@ -109,11 +113,12 @@ class LearningAgent(Agent):
 
         if reward < 0: 
         	self.n_penalty += 1
+        	print "Negative reward: inputs = {}, action = {}, reward = {}, waypoint {}".format(inputs, action, reward, self.next_waypoint)
 
-        with open("RandomAgent.csv", "a") as myfile:
-        	myfile.write("{},{},{},{},{},{},{} {}".format(deadline, inputs['light'],inputs['oncoming'],inputs['right'],inputs['left'], action, reward,'\n'))
+        # with open("agent.csv", "a") as myfile:
+        # 	myfile.write("{},{},{},{},{}{}".format(self.n_actions, inputs, action, reward, self.next_waypoint,'\n'))
 
-        print "LearningAgent.update(): deadline = {}, inputs = {}, action = {}, reward = {}".format(deadline, inputs, action, reward)  # [debug]
+        print "LearningAgent.update(): deadline = {}, inputs = {}, action = {}, reward = {}, waypoint = {}".format(deadline, inputs, action, reward, self.next_waypoint)  # [debug]
 
 ###
 def parameterTunning(alphas=[],gammas=[]):

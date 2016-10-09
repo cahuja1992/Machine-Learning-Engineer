@@ -34,6 +34,14 @@ class QLearningAgent(Agent):
         self.n_rewards = 0.0
         self.n_penalty = 0.0
 
+        self.trial=0
+
+        try:
+            os.remove("agent1.csv")
+            os.remove("qLearningTunning1.csv")
+        except:
+            pass
+
     def flipCoin(self, p ):
         r = random.random()
         return r < p
@@ -47,9 +55,11 @@ class QLearningAgent(Agent):
         self.epsilon = 0.0
         self.cumulativeRewards = 0
 
-        # self.n_actions = 0.0
-        # self.n_rewards = 0.0
-        # self.n_penalty = 0.0
+        self.n_actions = 0.0
+        self.n_rewards = 0.0
+        self.n_penalty = 0.0
+
+        self.trial+=1
 
     def getLegalActions(self, state):
         """
@@ -127,6 +137,11 @@ class QLearningAgent(Agent):
 
         if reward < 0: 
             self.n_penalty += 1
+            print "Negative reward: inputs = {}, action = {}, reward = {}, waypoint {}".format(inputs, action, reward, self.next_waypoint)
+
+        with open("agent1.csv", "a") as myfile:
+            myfile.write("{},{},{},{},{},{},{},{},{}{}".format(self.trial,self.n_actions, inputs['light'],inputs['oncoming'],inputs['right'],inputs['left'], action, reward, self.next_waypoint,'\n'))
+
         
     def getAction(self, state):
         legalActions = self.getLegalActions(state)  
